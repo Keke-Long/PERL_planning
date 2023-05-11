@@ -25,7 +25,7 @@ def plot_comparison(d, save_file=None):
     plt.subplots_adjust(hspace=0.4)
 
     if save_file:
-        plt.savefig('comparison.jpg')
+        plt.savefig('IDM_result_comparison.jpg')
     plt.show()
 
 
