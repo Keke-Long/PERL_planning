@@ -31,9 +31,9 @@ def plot_comparison(d, save_file=None):
 
 df = pd.read_csv("../Data/new_file.csv")
 arg = (47.68326931, 2., 3., 9.91649325, 0.59416805)# vf, A, b, s0, T
-df['ahat'] = df.apply(lambda row: IDM(arg, row['Speed2'], row['Speed2'] - row['Speed1'], row['IVS1']), axis=1)
-df['vhat'] = df['Speed2'] + df['ahat'] * 0.1
-df['error'] = df['ahat'] - df['A2']
+df['A_hat'] = df.apply(lambda row: IDM(arg, row['Speed2'], row['Speed2'] - row['Speed1'], row['IVS1']), axis=1)
+df['V_hat'] = df['Speed2'] + df['A_hat'] * 0.1
+df['A_error'] = df['A_hat'] - df['A2']
 df.to_csv('../Data/new_file.csv', index=False)
 
 plot_comparison(df, save_file=True)
