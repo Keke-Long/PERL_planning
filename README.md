@@ -17,7 +17,7 @@ Step 5 NN predict residual
 
 Time	
 
-Speed1  :Speed of vehicle 1
+Speed1  :Speed of vehicle 1 (m/s)
 
 E1  :East (x) coordinate of vehicle 1 in the local ENU plane (common center for all vehicles) (m)
 
@@ -29,12 +29,12 @@ E2
 
 N2	
 
-IVS1	:distance betweem vehicle 1 and vehicle 2 (m)
+IVS1	:distance between vehicle 1 and vehicle 2 (m)
 
-A1	:acceleration of vehicle 1
+A1	:acceleration of vehicle 1 (m/s^2)
 
-A2	
+A2	:acceleration of vehicle 2 (m/s^2)
 
-A_hat	:Predicted acceleration using physical method
+A_hat	:Predicted acceleration using physical method (m/s^2)
 
-V_hat	:Predicted speed using physical method
+V_hat	:Predicted speed using physical method (m/s)

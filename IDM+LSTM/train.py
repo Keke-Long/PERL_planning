@@ -39,7 +39,7 @@ if __name__ == '__main__':
     epochs = 200
     batch_size = 8
     dropout = 0.05
-    model = train_model(train_x, train_y, epochs, batch_size, dropout)
+    model = train_model(train_x, train_y[:,:,0], epochs, batch_size, dropout)
     model_name = "./model_new/new.h5"
     model.save(model_name)
 

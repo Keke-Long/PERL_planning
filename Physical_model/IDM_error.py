@@ -33,6 +33,7 @@ def plot_comparison(d, save_file=None):
 
 df = pd.read_csv("../Data/new_file.csv")
 df = df[50:50+19000]
+df = df[12585:]
 arg = (21.25714474, 1.63977986,  6. ,   3.,   0.7 )# vf, A, b, s0, T
 arg = (21.25, 0.53, 1.53, 5, 0.72)  # [21.7209617   1.7227525   6.          3.          0.26175753]
 df['A_hat'] = df.apply(lambda row: IDM(arg, row['Speed2'], row['Speed2'] - row['Speed1'], row['IVS1']), axis=1)
