@@ -4,9 +4,9 @@
 
 Step 1 Calibration, finished, output: Data/new_file.csv
 
-Step 2 LSTM predict trajectory
+Step 2 LSTM predict trajectory, finished,
 
-Step 3 LSTM predict residual
+Step 3 LSTM predict residual, finished,
 
 Step 4 NN predict trajectory
 
@@ -38,3 +38,22 @@ A2	:acceleration of vehicle 2 (m/s^2)
 A_hat	:Predicted acceleration using physical method (m/s^2)
 
 V_hat	:Predicted speed using physical method (m/s)
+
+
+## Results
+### Physical model
+IDM arg = (21.25, 0.53, 1.53, 5, 0.72)
+MSE when predicting acceleration: 0.23622273396526933 
+![Image text](https://github.com/Keke-Long/PINN/blob/main/Physical_model/IDM_result_comparison.jpg)
+ 
+
+### LSTM model
+MSE when predicting acceleration: 0.00028513008160522635 
+![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/LSTM_result_plot.png)
+
+
+### PINN(IDM+LSTM)
+MSE when PINN predicting error: 0.00024908116675127724
+train_size = 12585
+MSE when predicting acceleration: 0.2920514412228489 
+![Image text](https://github.com/Keke-Long/PINN/blob/main/IDM%2BLSTM/PINN_result_plot.png)
