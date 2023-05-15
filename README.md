@@ -51,7 +51,7 @@ MSE when predicting acceleration: 0.09168253878752634
 
 ### LSTM model
 MSE when predicting acceleration: 0.0005243129192017725
-![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/Platoon1_LSTM_result_plot.png)
+![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/Platoon1_LSTM_result.png)
 
 
 ### PINN(IDM+LSTM)
@@ -70,7 +70,7 @@ MSE when predicting acceleration: 0.14526829029921526
 
 ### LSTM model
 MSE when predicting acceleration: 0.002487138477807125
-![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/Platoon3_LSTM_result_plot.png)
+![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/Platoon3_LSTM_result.png)
 
 
 ### PINN(IDM+LSTM)
