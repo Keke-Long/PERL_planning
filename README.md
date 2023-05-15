@@ -51,13 +51,13 @@ MSE when predicting acceleration: 0.09168253878752634
 
 ### LSTM model
 MSE when predicting acceleration: 0.0005243129192017725
-![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/Platoon1 LSTM_result_plot.png)
+![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/Platoon1_LSTM_result_plot.png)
 
 
 ### PINN(IDM+LSTM)
 MSE when predicting A_error: 0.33157613026567234
 MSE when predicting acceleration: 0.33157613026567234
-![Image text](https://github.com/Keke-Long/PINN/blob/main/IDM%2BLSTM/Platoon1 PINN_result_plot.png)
+![Image text](https://github.com/Keke-Long/PINN/blob/main/IDM%2BLSTM/Platoon1_PINN_result_plot.png)
 
 
 
@@ -70,12 +70,12 @@ MSE when predicting acceleration: 0.14526829029921526
 
 ### LSTM model
 MSE when predicting acceleration: 0.002487138477807125
-![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/Platoon3 LSTM_result_plot.png)
+![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/Platoon3_LSTM_result_plot.png)
 
 
 ### PINN(IDM+LSTM)
 MSE when predicting A_error: 0.27356754458662513
 MSE when predicting acceleration: 0.2735675445866252
-![Image text](https://github.com/Keke-Long/PINN/blob/main/IDM%2BLSTM/Platoon3 PINN_result_plot.png)
+![Image text](https://github.com/Keke-Long/PINN/blob/main/IDM%2BLSTM/Platoon3_PINN_result_plot.png)
 
 
