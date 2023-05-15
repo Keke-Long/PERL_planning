@@ -44,7 +44,7 @@ V_hat	:Predicted speed using physical method (m/s)
 
 ## Results of Platoon 1 CAV
 ### Physical model
-IDM arg = (21.25, 0.53, 1.53, 5, 0.72)
+IDM arg = (23, 0.51, 4, 3.5, 0.56)
 
 MSE when predicting acceleration: 0.09168253878752634
 
