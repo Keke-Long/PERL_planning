@@ -25,19 +25,19 @@ if __name__ == '__main__':
     A_error_hat = y_predict[:, 0] # PINN predict residual
     A_error_hat = A_error_hat.flatten()
 
-    A_hat_pinn = A_hat - A_error_hat #A-A_error+新predict的error
+    A_pinn = A_hat - A_error_hat #A-A_error+新predict的error
 
-    print('MSE when predicting A_error:', mean_squared_error(A_error, A_error_hat))
-    print('MSE when predicting acceleration:', mean_squared_error(A2, A_hat_pinn))
+    #print('MSE when predicting A_error:', mean_squared_error(A_error, A_error_hat))
+    print('MSE when predicting acceleration:', mean_squared_error(A2, A_pinn))
 
     plt.figure(figsize=(8, 4))
     plt.plot(t_list, A2, 'b.', label='Original a')
     plt.plot(t_list, A_hat, 'g.', label='IDM predict a')
-    plt.plot(t_list, A_hat_pinn, 'r.', label='PINN Predicted a')
+    plt.plot(t_list, A_pinn, 'r.', label='PINN Predicted a')
     plt.xlabel('Time')
     plt.ylabel('Acceleration error (m/s^2)')
     plt.ylim(-2, 2)
     plt.legend()
-    plt.savefig('Platoon1 PINN_result_plot.png')
+    plt.savefig('Platoon1_PINN_result_plot.png')
     plt.show()
 

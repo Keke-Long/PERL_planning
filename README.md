@@ -58,8 +58,6 @@ MSE when predicting acceleration: 0.0005243129192017725
 
 
 ### PINN(IDM+LSTM)
-MSE when predicting A_error: 0.33157613026567234
-
 MSE when predicting acceleration: 0.33157613026567234
 
 ![Image text](https://github.com/Keke-Long/PINN/blob/main/IDM%2BLSTM/Platoon1_PINN_result_plot.png)
@@ -82,8 +80,6 @@ MSE when predicting acceleration: 0.002487138477807125
 
 
 ### PINN(IDM+LSTM)
-MSE when predicting A_error: 0.27356754458662513
-
 MSE when predicting acceleration: 0.2735675445866252
 
 ![Image text](https://github.com/Keke-Long/PINN/blob/main/IDM%2BLSTM/Platoon3_PINN_result_plot.png)
