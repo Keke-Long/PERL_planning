@@ -32,7 +32,7 @@ if __name__ == '__main__':
     LSTM输入三维的数据，(seq, local_x, local_y)
     根据前10步预测当前时刻后10步的轨迹
     """
-    data_size = 18000
+    data_size = 15500
     train_x, train_y, test_x, test_y = dt.load_data(data_size)
     # train_x.shape(280, 10, 2)
     # print(train_y.shape)
@@ -41,6 +41,6 @@ if __name__ == '__main__':
     batch_size = 8
     dropout = 0.05
     model = train_model(train_x, train_y, epochs, batch_size, dropout)
-    model_name = "./model_new/new.h5"
+    model_name = "./model/platoon1.h5"
     model.save(model_name)
 

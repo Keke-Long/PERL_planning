@@ -7,9 +7,9 @@ import pandas as pd
 
 
 if __name__ == '__main__':
-    data_size = 18000
+    data_size = 15500
     train_x, train_y, test_x, test_y_real = dt.load_data(data_size)
-    model = load_model("./model_new/new.h5")
+    model = load_model("./model/platoon1.h5")
     test_y_predict = model.predict(test_x)
     test_y_predict = test_y_predict.reshape(-1, 10, 1)
     # print('shape of test_x', test_x.shape)
@@ -21,16 +21,17 @@ if __name__ == '__main__':
     t = t.reshape(n, 1)
 
     mse = mean_squared_error(test_y_real[:,0], test_y_predict[:,0])
-    print('Mean Squared Error (MSE):', mse)
+    print('MSE when predicting acceleration:', mse)
 
 
-    plt.figure(figsize=(8, 4))
+    plt.figure(figsize=(10, 4))
     plt.plot(t, test_y_real[:,0], 'b.', label='Original a')
-    plt.plot(t, test_y_predict[:,0], 'r.', label='Predicted a')
+    plt.plot(t, test_y_predict[:,0], 'r.', label='LSTM Predicted a')
     plt.xlabel('Time')
     plt.ylabel('Acceleration error (m/s^2)')
     plt.legend()
-    plt.savefig('LSTM_result.png')
+    plt.ylim(-2, 2)
+    plt.savefig('Platoon1 LSTM_result.png')
     plt.show()
 
 

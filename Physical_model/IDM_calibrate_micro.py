@@ -34,7 +34,7 @@ class PSO:
             if fit < temp:
                 self.g_best = self.p_best[i]
                 temp = fit
-        print(' self.pop_x', self.pop_x)
+        #print(' self.pop_x', self.pop_x)
 
     def fitness(self, ind_var):
         """
@@ -55,14 +55,14 @@ class PSO:
             delta_d = df.iloc[i]['IVS1'] # distance (without length of vehicles)
             ahat = IDM(arg, vi, delta_v, delta_d)
             error.append((ai - ahat) ** 2)
-        y = np.mean(error)**0.5
+        y = np.mean(error)
         return y
 
     def update_operator(self, pop_size, gen):
         """
         更新算子：更新下一时刻的位置和速度
         """
-        c1 = 7  # 学习因子，一般为2
+        c1 = 2  # 学习因子，一般为2
         c2 = 2
         w = 1  # 自身权重因子
 
@@ -114,15 +114,15 @@ class PSO:
 if __name__ == '__main__':
 
     # Data load
-    df = pd.read_csv("../Data/new_file.csv")
-    df = df.iloc[50:50+19000]
+    df = pd.read_csv("../Data/ASta_050719_platoon1_new.csv")
+    df = df.iloc[1:15500]
 
     # Calibration
     NGEN = 50
     popsize = 400
     CF_model = 'IDM'
-    low = [10, 0.2, 0.2, 0.1, 0.1] # vf, a, b, s0, T
-    up =  [30,   4,   6,   3,   5]
+    low = [20, 1, 1, 1, 1] # vf, a, b, s0, T
+    up =  [30, 4, 6, 3, 5]
     parameters = [NGEN, popsize, low, up]
     pso = PSO(parameters)
     pso.main()

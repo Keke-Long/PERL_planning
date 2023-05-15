@@ -40,20 +40,42 @@ A_hat	:Predicted acceleration using physical method (m/s^2)
 V_hat	:Predicted speed using physical method (m/s)
 
 
-## Results
+
+
+## Results of Platoon 1 CAV
 ### Physical model
 IDM arg = (21.25, 0.53, 1.53, 5, 0.72)
-MSE when predicting acceleration: 0.23622273396526933 
-![Image text](https://github.com/Keke-Long/PINN/blob/main/Physical_model/IDM_result_comparison.jpg)
+MSE when predicting acceleration: 0.09168253878752634
+![Image text](https://github.com/Keke-Long/PINN/blob/main/Physical_model/Platoon1_IDM_result_comparison.jpg)
  
 
 ### LSTM model
-MSE when predicting acceleration: 0.00028513008160522635 
-![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/LSTM_result_plot.png)
+MSE when predicting acceleration: 0.0005243129192017725
+![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/Platoon1_LSTM_result_plot.png)
 
 
 ### PINN(IDM+LSTM)
-MSE when PINN predicting error: 0.00024908116675127724
-train_size = 12585
-MSE when predicting acceleration: 0.2920514412228489 
-![Image text](https://github.com/Keke-Long/PINN/blob/main/IDM%2BLSTM/PINN_result_plot.png)
+MSE when predicting A_error: 0.33157613026567234
+MSE when predicting acceleration: 0.33157613026567234
+![Image text](https://github.com/Keke-Long/PINN/blob/main/IDM%2BLSTM/Platoon1_PINN_result_plot.png)
+
+
+
+## Results of Platoon 3 HV
+### Physical model
+IDM arg = (25.4,   1.3,  4.0,  3.9,  1.57)
+MSE when predicting acceleration: 0.14526829029921526 
+![Image text](https://github.com/Keke-Long/PINN/blob/main/Physical_model/Platoon1_IDM_result_comparison.jpg)
+ 
+
+### LSTM model
+MSE when predicting acceleration: 0.002487138477807125
+![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/Platoon1_LSTM_result_plot.png)
+
+
+### PINN(IDM+LSTM)
+MSE when predicting A_error: 0.27356754458662513
+MSE when predicting acceleration: 0.2735675445866252
+![Image text](https://github.com/Keke-Long/PINN/blob/main/IDM%2BLSTM/Platoon1_PINN_result_plot.png)
+
+

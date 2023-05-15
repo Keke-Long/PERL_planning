@@ -23,16 +23,17 @@ def normalization(x, data_size):
     return x
 
 def load_data(data_size):
-    data_csv = pd.read_csv('../Data/new_file1.csv')
+    data_csv = pd.read_csv('../Data/ASta_050719_platoon1_new1.csv')
+    start = 1
 
     # 取前data_size个数据作为预测对象
-    pre_x = data_csv['E1'].tolist()[50:50+data_size]
-    pre_y = data_csv['N1'].tolist()[50:50+data_size]
-    sub_x = data_csv['E2'].tolist()[50:50+data_size]
-    sub_y = data_csv['N2'].tolist()[50:50+data_size]
-    sub_a = data_csv['A2'].tolist()[50:50 + data_size]
-    a_error = data_csv['A_error'].tolist()[50:50+data_size]
-    t = data_csv['Time'].tolist()[50:50+data_size]
+    pre_x = data_csv['E1'].tolist()[start:start + data_size]
+    pre_y = data_csv['N1'].tolist()[start:start + data_size]
+    sub_x = data_csv['E2'].tolist()[start:start + data_size]
+    sub_y = data_csv['N2'].tolist()[start:start + data_size]
+    sub_a = data_csv['A2'].tolist()[start:start + data_size]
+    a_error = data_csv['A_error'].tolist()[start:start + data_size]
+    t = data_csv['Time'].tolist()[start:start + data_size]
     del data_csv
     seq = np.arange(data_size) # 序号
 

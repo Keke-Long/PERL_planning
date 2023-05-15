@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Read in the csv file and store as a dataframe, ignoring the first five rows
-df = pd.read_csv('../Data/ASta_050719_platoon1.csv', skiprows=range(5))
+df = pd.read_csv('../Data/ASta_040719_platoon3_new.csv')
 
 # # Plot the trajectories of all five cars
 # fig, ax = plt.subplots()
@@ -35,17 +35,30 @@ df = pd.read_csv('../Data/ASta_050719_platoon1.csv', skiprows=range(5))
 
 
 # 创建一个新的 Matplotlib 图形并添加两条线
-fig, ax = plt.subplots()
-ax.plot(df['Time'], df['Speed1'], label='Speed1')
-ax.plot(df['Time'], df['Speed2'], label='Speed2')
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
 
-# 添加图例和标签
-ax.legend()
-ax.set_xlabel('Time')
-ax.set_ylabel('Speed')
-ax.set_title('Speed vs Time')
+# 绘制速度
+ax1.plot(df['Time'], df['Speed1'], label='Speed1')
+ax1.plot(df['Time'], df['Speed2'], label='Speed2')
+ax1.legend()
+ax1.set_xlabel('Time')
+ax1.set_ylabel('Speed')
+ax1.set_title('Speed vs Time')
+
+# 绘制加速度
+ax2.plot(df['Time'], df['A1'], label='A')
+ax2.plot(df['Time'], df['A2'], label='A2')
+ax2.legend()
+ax2.set_xlabel('Time')
+ax2.set_ylabel('Acceleration')
+ax2.set_title('Acceleration vs Time')
+
+# 调整子图之间的间距
+plt.subplots_adjust(hspace=0.4)
+
+# 保存图像并显示
+plt.savefig('Plot_trj for platoon 3.jpg')
 plt.show()
-
 
 
 
