@@ -115,7 +115,6 @@ if __name__ == '__main__':
 
     # Data load
     df = pd.read_csv("../Data/ASta_050719_platoon1_new.csv")
-    df = df.iloc[1:15500]
 
     # Calibration
     NGEN = 50

@@ -46,19 +46,19 @@ V_hat	:Predicted speed using physical method (m/s)
 ### Physical model
 IDM arg = (23, 0.51, 4, 3.5, 0.56)
 
-MSE when predicting acceleration: 0.09168253878752634
+MSE when predicting acceleration: 0.16
 
 ![Image text](https://github.com/Keke-Long/PINN/blob/main/Physical_model/Platoon1_IDM_result_comparison.jpg)
  
 
 ### LSTM model
-MSE when predicting acceleration: 0.0005243129192017725
+MSE when predicting acceleration: 0.123193
 
 ![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/Platoon1_LSTM_result.png)
 
 
 ### PINN(IDM+LSTM)
-MSE when predicting acceleration: 0.33157613026567234
+MSE when predicting acceleration: 0.11098
 
 ![Image text](https://github.com/Keke-Long/PINN/blob/main/IDM%2BLSTM/Platoon1_PINN_result_plot.png)
 
@@ -68,19 +68,19 @@ MSE when predicting acceleration: 0.33157613026567234
 ### Physical model
 IDM arg = (25.4,   1.3,  4.0,  3.9,  1.57)
 
-MSE when predicting acceleration: 0.14526829029921526 
+MSE when predicting acceleration: 0.09978
 
 ![Image text](https://github.com/Keke-Long/PINN/blob/main/Physical_model/Platoon3_IDM_result_comparison.jpg)
  
 
 ### LSTM model
-MSE when predicting acceleration: 0.002487138477807125
+MSE when predicting acceleration: 0.00372
 
 ![Image text](https://github.com/Keke-Long/PINN/blob/main/LSTM/Platoon3_LSTM_result.png)
 
 
 ### PINN(IDM+LSTM)
-MSE when predicting acceleration: 0.2735675445866252
+MSE when predicting acceleration: 0.22685
 
 ![Image text](https://github.com/Keke-Long/PINN/blob/main/IDM%2BLSTM/Platoon3_PINN_result_plot.png)
 

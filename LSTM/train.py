@@ -3,11 +3,6 @@ from keras.layers import Flatten, Dense, Embedding, LSTM, Dropout, Activation
 import data as dt
 
 def train_model(train_x, train_y, epochs, batch_size, dropout=0.2):
-    """
-    :param train_x:
-    :param train_y: LSTM训练所需的训练集
-    :return: 训练得到的模型
-    """
     model = Sequential()
     model.add(LSTM(256,
                    input_shape=(train_x.shape[1], train_x.shape[2]),
@@ -29,18 +24,14 @@ def train_model(train_x, train_y, epochs, batch_size, dropout=0.2):
 
 if __name__ == '__main__':
     """
-    LSTM输入三维的数据，(seq, local_x, local_y)
     根据前10步预测当前时刻后10步的轨迹
     """
-    data_size = 15500
-    train_x, train_y, test_x, test_y = dt.load_data(data_size)
-    # train_x.shape(280, 10, 2)
-    # print(train_y.shape)
+    train_x, train_y, test_x, test_y, _, _ = dt.load_data()
 
-    epochs = 200
-    batch_size = 8
+    epochs = 100
+    batch_size = 32
     dropout = 0.05
     model = train_model(train_x, train_y, epochs, batch_size, dropout)
-    model_name = "./model/platoon1.h5"
+    model_name = "./model/platoon3.h5"
     model.save(model_name)
 
