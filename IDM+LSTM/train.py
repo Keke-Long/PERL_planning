@@ -2,6 +2,7 @@ from keras.models import Sequential, load_model
 from keras.layers import Flatten, Dense, Embedding, LSTM, Dropout, Activation
 import data as dt
 import os
+import argparse
 
 def train_model(train_x, train_y, epochs, batch_size, dropout=0.2):
     model = Sequential()
@@ -41,12 +42,17 @@ if __name__ == '__main__':
     """
     根据前10步预测当前时刻后10步的轨迹
     """
-    train_x, train_y, test_x, test_y, _, _ = dt.load_data()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--platoon_num', type=int, help='Platoon number')
+    args = parser.parse_args()
+    platoon_num = args.platoon_num
+
+    train_x, train_y, test_x, test_y, _, _ = dt.load_data(platoon_num)
 
     epochs = 100
-    batch_size = 32
+    batch_size = 64
     dropout = 0.05
     model = train_model(train_x, train_y[:,:,0], epochs, batch_size, dropout)
-    model_name = "./model/platoon3.h5"
+    model_name = "./model/platoon{}.h5".format(platoon_num)
     model.save(model_name)
 

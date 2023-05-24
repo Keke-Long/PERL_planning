@@ -3,12 +3,17 @@ from keras.models import load_model
 import data as dt
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, mean_absolute_error
-import pandas as pd
+import argparse
 
 
 if __name__ == '__main__':
-    train_x, train_y, test_x, test_y_real, A_min, A_max = dt.load_data()
-    model = load_model("./model/platoon3.h5")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--platoon_num', type=int, help='Platoon number')
+    args = parser.parse_args()
+    platoon_num = args.platoon_num
+
+    train_x, train_y, test_x, test_y_real, A_min, A_max = dt.load_data(platoon_num)
+    model = load_model("./model/platoon{}.h5".format(platoon_num))
     test_y_predict = model.predict(test_x)
     test_y_predict = test_y_predict.reshape(-1, 10, 1)
 
@@ -30,9 +35,10 @@ if __name__ == '__main__':
     plt.plot(t, A_hat, '.', color='r', markersize=1, label='LSTM Predicted a')
     plt.xlabel('Index')
     plt.ylabel('Acceleration error (m/s^2)')
-    plt.legend()
     plt.ylim(-2, 2)
-    plt.savefig('Platoon3_LSTM_result.png')
+    plt.title('MSE: {:.4f}'.format(mse))
+    plt.legend()
+    plt.savefig('Platoon{}_LSTM_result.png'.format(platoon_num))
     plt.show()
 
 

@@ -12,8 +12,6 @@ def create_dateset(info, look_back=10):
         dataY.append(b)
     dataX = np.array(dataX, dtype='float64')
     dataY = np.array(dataY, dtype='float64')
-    print("dataX shape:", dataX.shape)
-    print("dataY shape:", dataY.shape)
     return dataX, dataY
 
 def normalization(x, data_size):
@@ -22,8 +20,8 @@ def normalization(x, data_size):
     x = x.reshape(data_size, 1)
     return x
 
-def load_data():
-    data_csv = pd.read_csv('../Data/ASta_platoon3_new.csv')
+def load_data(platoon_num):
+    data_csv = pd.read_csv('../Data/ASta_platoon{}_new.csv'.format(platoon_num))
     data_size = data_csv.shape[0]
 
     # 取前data_size个数据作为预测对象
