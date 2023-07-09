@@ -1,17 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-def IDM(vi, delta_v, delta_d):
-    vf= 30
-    A = 3
-    b = 3.2735
-    s0= 2
-    T = 2.2
-    s_star = s0 + max(0, (vi*T + (vi * delta_v) / (2 * np.sqrt(A*b))) )
-    epsilon = 1e-20
-    ahat = A*(1 - (vi/vf)**4 - (s_star/(delta_d + epsilon))**2)
-    return ahat
+import os
 
-def plot_results(origin_trj, mpc_trj, filename, n):
+def plot_results(origin_trj, mpc_trj, filename, scenario, n):
     ts = 0.1
     t = np.arange(0, ts * n, ts)
     fig, axs = plt.subplots(3, 1, figsize=(12, 8))
@@ -48,15 +39,12 @@ def plot_results(origin_trj, mpc_trj, filename, n):
     axs[2].grid(True)
 
     plt.tight_layout()
-
-    # Save the figure
-
-    plt.savefig(filename, dpi=300)
-    plt.show()
+    plt.savefig(f'/home/ubuntu/Documents/PINN/planning/Results/{filename}_{scenario}_a_v_x.png', dpi=300)
+    #plt.show()
 
 
 import pandas as pd
-def save_trj(origin_trj, mpc_trj):
+def save_trj(origin_trj, mpc_trj, filename, scenario):
     # Convert instances to DataFrames
 
     origin_df = pd.DataFrame({
@@ -83,5 +71,40 @@ def save_trj(origin_trj, mpc_trj):
     })
 
     # Save DataFrames to CSV
-    origin_df.to_csv('origin_trj.csv', index=False)
-    mpc_df.to_csv('mpc_trj.csv', index=False)
+    origin_df.to_csv(f'/home/ubuntu/Documents/PINN/planning/Results/{filename}_origin_trj.csv', index=False)
+    mpc_df.to_csv(f'/home/ubuntu/Documents/PINN/planning/Results/{filename}_{scenario}_mpc_trj.csv', index=False)
+    current_dir = os.getcwd()
+    print('Save results to', current_dir)
+
+
+def save_measures(origin_trj, mpc_trj, filename, scenario):
+    measurements = pd.DataFrame(columns=['veh01_distance_mean', 'veh01_distance_var',
+                                         'veh12_distance_mean', 'veh12_distance_var',
+                                         'veh1_a_mean', 'veh1_a_var',
+                                         'veh2_a_mean', 'veh2_a_var',])
+    # 计算车辆间距的均值和方差
+    m1 = np.mean(origin_trj.x_1_origin - origin_trj.x_0_origin)
+    m2 = np.var(origin_trj.x_1_origin - origin_trj.x_0_origin)
+    m3 = np.mean(origin_trj.x_2_origin - origin_trj.x_1_origin)
+    m4 = np.var(origin_trj.x_2_origin - origin_trj.x_1_origin)
+    # 计算加速度的均值和方差
+    m5 = np.mean(origin_trj.a_1_origin)
+    m6 = np.var(origin_trj.a_1_origin)
+    m7 = np.mean(origin_trj.a_2_origin)
+    m8 = np.var(origin_trj.a_2_origin)
+    measurements.loc[0] = [m1, m2, m3, m4, m5, m6, m7, m8]
+
+    # 计算车辆间距的均值和方差
+    m1 = np.mean(mpc_trj.x_1 - origin_trj.x_0_origin)
+    m2 = np.var(mpc_trj.x_1 - origin_trj.x_0_origin)
+    m3 = np.mean(mpc_trj.x_2 - mpc_trj.x_1)
+    m4 = np.var(mpc_trj.x_2 - mpc_trj.x_1)
+    # 计算加速度的均值和方差
+    m5 = np.mean(mpc_trj.a_1)
+    m6 = np.var(mpc_trj.a_1)
+    m7 = np.mean(mpc_trj.a_2)
+    m8 = np.var(mpc_trj.a_2)
+    measurements.loc[1] = [m1, m2, m3, m4, m5, m6, m7, m8]
+
+    # 保存数据帧到CSV文件
+    measurements.to_csv(f'/home/ubuntu/Documents/PINN/planning/Results/{filename}_{scenario}_measure.csv', index=False)

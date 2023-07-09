@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 from scipy.linalg import block_diag, tril
 import cvxpy as cp
 import pandas as pd
-
 from planning_funs import *
+from prediction.Physical_model.IDM import IDM
+
 
 class Origin_trj:
     def __init__(self, t, a_0_origin, a_1_origin, a_2_origin,
@@ -38,30 +39,34 @@ d0 = 5     # 最小安全间距
 h = 1.3
 tao = 0.4  # 机械时延
 ts = 0.1   # 仿真步长
-Np = 6     # 预测步长
-Nc = 5     # 控制步长
+Np = 6  # 预测步长
+Nc = 5  # 控制步长
 Nx = 5     # 状态量数目
 Ny = 5     # 输出量数目
 Nu = 1     # 控制量数目
-T = 2.2    # T in IDM model 是IDM稳定时的headway
-T_sim = 15
+T = 2.6154    # T in IDM model 是IDM稳定时的headway
 s0 = 2
 
 ## load real data
-df = pd.read_csv('./NGSIMdata/lane2_veh54_59_79.csv')
+scenario = "IDM_prediction"
+# scenario = "No_prediction"
+filename = "lane2_veh2765_2775_2774"
+
+df = pd.read_csv(f'./NGSIMdata/{filename}.csv')
 n = len(df)
-Y0_start = min(df['Y1'])
-x_0_origin = df['Y1'] - Y0_start
-v_0_origin = df['v1']
-a_0_origin = df['a1']
+Y0_start = min(df['Y0'])
+x_0_origin = df['Y0'] - Y0_start
+v_0_origin = df['v0']
+a_0_origin = df['a0']
+a_0_IDM = df['IDM_a0']
 
-x_1_origin = df['Y2'] - Y0_start
-v_1_origin = df['v2']
-a_1_origin = df['a2']
+x_1_origin = df['Y1'] - Y0_start
+v_1_origin = df['v1']
+a_1_origin = df['a1']
 
-x_2_origin = df['Y3'] - Y0_start
-v_2_origin = df['v3']
-a_2_origin = df['a3']
+x_2_origin = df['Y2'] - Y0_start
+v_2_origin = df['v2']
+a_2_origin = df['a2']
 
 ref = np.zeros((n, 5))
 ref[:, 2] = a_0_origin
@@ -82,8 +87,8 @@ B2 = ts*np.array([[0, 0],
 C = np.eye(5)
 
 # 构造权重矩阵Q, R
-r = 0.1  #控制增量权重
-q = np.diag([10, 8, 3, 10, 1])
+r = 0.5  #控制增量权重
+q = np.diag([1, 1, 5, 1, 1])
 Q = np.kron(np.eye(Np), q)
 R = r * np.eye(Nc)
 
@@ -114,7 +119,7 @@ Mdu = np.block(Mdu_cell)
 ## Constraints setting
 # Constraints of u
 umin = -4.5
-umax = 2.5
+umax = 3
 U_min = np.array([umin] * Nc)
 U_max = np.array([umax] * Nc)
 # Constrain of delta u
@@ -134,7 +139,7 @@ es_max = 3
 ev_min = -2
 ev_max = 2
 a_min = -4.5
-a_max = 2.5
+a_max = 3
 v_min = 0
 v_max = 40
 y_min = np.array([es_min, ev_min, a_min, es_min, ev_min])
@@ -155,7 +160,7 @@ Vu_min = np.kron(np.ones(Nc), vu_min)
 Vu_max = np.kron(np.ones(Nc), vu_max)
 # 输出状态松弛约束
 vy_min = np.array([0, -1, -0.1, 0, -1])
-vy_max = np.array([5, 1, 0.1, 5, 1])
+vy_max = np.array([10, 2, 0.1, 10, 2])
 VY_min = np.kron(np.ones(Np), vy_min)
 VY_max = np.kron(np.ones(Np), vy_max)
 
@@ -163,19 +168,19 @@ VY_max = np.kron(np.ones(Np), vy_max)
 X = np.zeros((n+1, 5))
 U = np.zeros((n+1, 1))
 
-Veh0_init_a = df.iloc[0]['a1']
-Veh0_init_v = df.iloc[0]['v1']
-Veh0_init_x = df.iloc[0]['Y1']
-Veh1_init_a = df.iloc[0]['a2']
-Veh1_init_v = df.iloc[0]['v2']
-Veh1_init_x = df.iloc[0]['Y2']
-Veh2_init_a = df.iloc[0]['a3']
-Veh2_init_v = df.iloc[0]['v3']
-Veh2_init_x = df.iloc[0]['Y3']
+Veh0_init_a = df.iloc[0]['a0']
+Veh0_init_v = df.iloc[0]['v0']
+Veh0_init_x = df.iloc[0]['Y0']
+Veh1_init_a = df.iloc[0]['a1']
+Veh1_init_v = df.iloc[0]['v1']
+Veh1_init_x = df.iloc[0]['Y1']
+Veh2_init_a = df.iloc[0]['a2']
+Veh2_init_v = df.iloc[0]['v2']
+Veh2_init_x = df.iloc[0]['Y2']
 
 delta_x1 = Veh0_init_x - Veh1_init_x - L - h * Veh1_init_v
 delta_v1 = Veh1_init_v - Veh0_init_v
-delta_x2 = Veh1_init_x - Veh2_init_x - T * Veh2_init_v
+delta_x2 = Veh1_init_x - Veh2_init_x  - T * Veh2_init_v
 delta_v2 = Veh2_init_v - Veh1_init_v
 
 X[0, :] = [delta_x1, delta_v1, Veh1_init_a, delta_x2, delta_v2]
@@ -188,13 +193,20 @@ a_2 = np.zeros((n, 1))
 ## MPC
 for k in range(n):
     print(k)
-    vi = v_0_origin[k] - X[k, 1] - X[k, 4]
+    vi = v_0_origin[k] + X[k, 1] + X[k, 4]
     delta_v = -X[k, 4]
-    delta_d = X[k, 3] + s0 + vi * T
-    a_22 = IDM(vi, delta_v, delta_d)
+    delta_d = X[k, 3] + L + vi * T
+    # arg = (23.5617, 1.0033, 3.2735, 2.9015, 2.6154)
+    arg = (23.5617, 1.0033, 3.2735, 2.9015, 2.6154)
+    a_22 = IDM(arg, vi, delta_v, delta_d)
     a_2[k] = a_22
 
-    w = np.array([a_0_origin[k], a_22])
+    if scenario == "No_prediction":
+        w = np.array([a_0_origin[k], a_22])
+    elif scenario == "IDM_prediction":
+        w = np.array([a_0_IDM[k], a_22])
+    elif scenario == "PINN_prediction":
+        w = np.array([a_0_origin[k], a_22])
 
     H_cell = [[2 * (Mdu.T @ Q @ Mdu + R), np.zeros((Nu * Nc, 1))],
               [np.zeros((1, Nu * Nc)), Row]]
@@ -236,7 +248,7 @@ for k in range(n):
     b_cons = np.vstack(b_cons_cell)
     b_cons = np.squeeze(b_cons)
 
-    du = cp.Variable(Np)
+    du = cp.Variable(Nc+1)
     objective = cp.Minimize(0.5 * cp.quad_form(du, H) + f.T @ du)
     constraints = [A_cons @ du <= b_cons, lb <= du, du <= ub]
     problem = cp.Problem(objective, constraints)
@@ -251,15 +263,19 @@ for k in range(n):
         print('The solver could not find an optimal solution.')
 
     U[k+1, :] = U[k, :] + res[:Nu] # 更新控制量
-    X[k + 1, :] = A @ X[k, :].T + B1 @ U[k + 1, :].T + (B2 @ w).T # 更新状态量
+    print('U[k+1, :]', U[k+1, :])
+    X[k+1, :] = A @ X[k, :].T + B1 @ U[k + 1, :].T + (B2 @ w).T # 更新状态量
+    print('X[k+1, 2] = a[k+1]=', X[k+1, 2])
+
 
 # results
 a_1 = X[:n, 2]
+# a_1 = U[:-1]
 v_1 = v_0_origin + X[:n, 1]
 x_1 = x_0_origin - X[:n, 0] - L - h * v_1
 
 v_2 = v_0_origin + X[:n, 1] + X[:n, 4]
-x_2 = x_1 - X[:n, 3] - L - T * v_2
+x_2 = x_1 - X[:n, 3]  - T * v_2
 
 
 ## Store results in instances of Origin_trj and MPC_cav_trj
@@ -268,8 +284,13 @@ origin_trj = Origin_trj(t=df['t'], a_0_origin=a_0_origin, a_1_origin=a_1_origin,
                                    x_0_origin=x_0_origin, x_1_origin=x_1_origin, x_2_origin=x_2_origin)
 mpc_trj = MPC_cav_trj(t=df['t'], a_1=a_1, a_2=a_2, v_1=v_1, v_2=v_2, x_1=x_1, x_2=x_2)
 
-filename = f"MPC_cav_hv_Np{Np}_Nc{Nc}.png"
-plot_results(origin_trj, mpc_trj, filename, n)
 
 
-save_trj(origin_trj, mpc_trj)
+#plot
+plot_results(origin_trj, mpc_trj, filename, scenario, n)
+
+#save result trajectories
+save_trj(origin_trj, mpc_trj, filename, scenario)
+
+# compare the origin trajectory and the MPC trajectory
+save_measures(origin_trj, mpc_trj, filename, scenario)
