@@ -1,18 +1,18 @@
 '''
-Add predicted values to the original data.
-Prediction methods include: IDM, PERL
-The results are stored in ‘./data/{DataName}_predicted/’
+Add predictions to the original data.
+Prediction methods include: IDM, PERL.
+Results will be saved in './data/{DataName}_predicted/'.
 '''
 
 import os
 import numpy as np
+import pandas as pd
 from keras.models import load_model
 import pandas as pd
+import argparse
 from datetime import datetime
 import data as dt
 import joblib
-
-
 
 def IDM(arg, vi, delta_v, delta_d):
     vf, A, b, s0, T = arg
@@ -21,7 +21,6 @@ def IDM(arg, vi, delta_v, delta_d):
     epsilon = 1e-5
     ahat = A*(1 - (vi/vf)**4 - (s_star/(delta_d+epsilon))**2)
     return ahat
-
 
 def add_prediction(df):
     ### IDM ###
@@ -80,22 +79,22 @@ def add_prediction(df):
         df.loc[i, 'a4_PERL'] = df.loc[i, 'a4_IDM'] - A_residual_hat
     return df
 
-
 DataName = "NGSIM_I80"
 
-# Set path for data and output
+# Set the folder path for the data
 data_folder = '/home/ubuntu/Documents/PERL_planning/data/NGSIM_I80'
 output_folder = './data/NGSIM_I80_predicted'
-os.makedirs(output_folder, exist_ok=True)
+os.makedirs(output_folder, exist_ok=True)  # Ensure the output folder exists
 
-# Process each CSV file in the data folder
+# Iterate through all files in the folder
 for filename in os.listdir(data_folder):
-    if filename.endswith('.csv'):
+    if filename.endswith('.csv'):  # Ensure only CSV files are processed
         output_file_path = os.path.join(output_folder, filename)
-        if not os.path.exists(output_file_path):
+        if not os.path.exists(output_file_path):  # Check if the file already exists in the output folder
             file_path = os.path.join(data_folder, filename)
             df = pd.read_csv(file_path)
             df = add_prediction(df)
+            # Save the processed DataFrame to the new location
             df.to_csv(os.path.join(output_folder, filename), index=False)
             print(f'Processed and saved: {filename}')
         else:

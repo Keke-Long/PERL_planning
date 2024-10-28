@@ -12,30 +12,28 @@ def IDM(arg, vi, delta_v, delta_d):
 file_name = '1_11_24_44_55_54.csv'
 df = pd.read_csv(f'./data/NGSIM_I80_results/{file_name}')
 
-# Set IDM model parameters, which may need to be adjusted based on actual conditions
-# vf (desired velocity), A (maximum acceleration), b (comfortable deceleration), s0 (minimum space), T (safe time headway)
-arg_base = (20, 1.5, 2, 1.3, 1.5)
+# Set IDM model parameters, these may need to be adjusted based on actual conditions
+arg_base = (20, 1.5, 2, 1.3, 1.5)  # Example parameters: vf, A, b, s0, T
 
-
-# Initialize columns for the trajectory of the following vehicle
+# Initialize the trajectory columns for the following vehicle
 df['a6_mpc_base2'] = 0
-df['v6_mpc_base2'] = df.loc[0, 'v6']  # Assume initial speed is the same as the first row
-df['Y6_mpc_base2'] = df.loc[0, 'Y6']  # Assume initial position is the same as the first row
+df['v6_mpc_base2'] = df.loc[0, 'v6']  # Assume the initial speed is the same as the first row
+df['Y6_mpc_base2'] = df.loc[0, 'Y6']  # Assume the initial position is the same as the first row
 
-# Iterate over time steps to update state
+df['a6_mpc_base3'] = 0
+df['v6_mpc_base3'] = df.loc[0, 'v6']
+df['Y6_mpc_base3'] = df.loc[0, 'Y6']
+
+# Iterate through time steps to update states
 dt = 0.1  # Time step
 for i in range(1, len(df)):
-    # Update acceleration using IDM
     df.loc[i, 'a6_mpc_base2'] = IDM(arg_base, df.loc[i-1, 'v6_mpc_base2'], df.loc[i-1, 'v5_mpc_base2'] - df.loc[i-1, 'v6_mpc_base2'], df.loc[i-1, 'Y5_mpc_base2'] - df.loc[i-1, 'Y6_mpc_base2'])
-    # Update velocity
     df.loc[i, 'v6_mpc_base2'] = df.loc[i-1, 'v6_mpc_base2'] + df.loc[i, 'a6_mpc_base2'] * dt
-    # Update position
     df.loc[i, 'Y6_mpc_base2'] = df.loc[i-1, 'Y6_mpc_base2'] + df.loc[i-1, 'v6_mpc_base2'] * dt
 
-    # Do the same for the third base case
     df.loc[i, 'a6_mpc_base3'] = IDM(arg_base, df.loc[i-1, 'v6_mpc_base3'], df.loc[i-1, 'v5_mpc_base3'] - df.loc[i-1, 'v6_mpc_base3'], df.loc[i-1, 'Y5_mpc_base3'] - df.loc[i-1, 'Y6_mpc_base3'])
     df.loc[i, 'v6_mpc_base3'] = df.loc[i-1, 'v6_mpc_base3'] + df.loc[i, 'a6_mpc_base3'] * dt
     df.loc[i, 'Y6_mpc_base3'] = df.loc[i-1, 'Y6_mpc_base3'] + df.loc[i-1, 'v6_mpc_base3'] * dt
 
-# Save the updated DataFrame
+# Save the updated CSV
 df.to_csv(f'./data/NGSIM_I80_results/{file_name}', index=False)
