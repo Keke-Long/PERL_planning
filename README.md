@@ -1,9 +1,6 @@
 # PERL Planning
 
-This repository contains the code and related experimental materials for the following peer-reviewed article:
-
-> Keke Long, Zhaohui Liang, Haotian Shi, Lei Shi, Sikai Chen, and Xiaopeng Li, "Traffic Oscillation Mitigation with Physics-Enhanced Residual Learning (PERL)-Based Predictive Control," *Communications in Transportation Research*, vol. 4, 2024, Article 100154.  
-> [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S2772424724000374) | [DOI: 10.1016/j.commtr.2024.100154](https://doi.org/10.1016/j.commtr.2024.100154)
+Code for [Traffic Oscillation Mitigation with Physics-Enhanced Residual Learning (PERL)-Based Predictive Control](https://www.sciencedirect.com/science/article/pii/S2772424724000374).
 
 ## Overview
 
